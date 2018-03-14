@@ -1,17 +1,17 @@
 #Internal package file, do not edit.
-#Mon Mar 12 14:29:55 CET 2018
-2.base=C\:\\Users\\frederik\\Desktop\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
+#Wed Mar 14 11:19:35 CET 2018
+2.base=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/14
 5.set=DEX
 0.path=classes.dex
 2.baseType=DIRECTORY
-3.base=C\:\\Users\\frederik\\Desktop\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
+3.base=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/13
 2.set=DEX
 1.path=classes.dex
-4.base=C\:\\Users\\frederik\\Desktop\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\11
+4.base=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/16
 count=6
 5.baseType=DIRECTORY
 2.path=classes.dex
-5.base=C\:\\Users\\frederik\\Desktop\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
+5.base=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/12
 4.set=DEX
 3.path=classes.dex
 3.baseType=DIRECTORY
@@ -19,9 +19,9 @@ count=6
 4.path=classes.dex
 1.baseType=DIRECTORY
 5.path=classes.dex
-0.base=C\:\\Users\\frederik\\Desktop\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
+0.base=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/15
 0.baseType=DIRECTORY
 3.set=DEX
-1.base=C\:\\Users\\frederik\\Desktop\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
+1.base=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/17
 4.baseType=DIRECTORY
 0.set=DEX
