@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ShopList</string>
+    <string name="new_item_dialog_text">Enter new item:</string>
+    <string name="ok">Okay</string>
+    <string name="cancel">Cancel</string>
+</resources>

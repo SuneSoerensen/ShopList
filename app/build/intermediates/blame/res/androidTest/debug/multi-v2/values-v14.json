@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "/home/sune/AndroidStudioProjects/ShopList/C:\\Users\\frederik\\Desktop\\ShopList\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v14\\values-v14.xml",
+            "map": [
+                {
+                    "source": "/home/sune/AndroidStudioProjects/ShopList/C:\\Users\\frederik\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\36f31139701b96b42d7158f0f10a7b7f\\res\\values-v14\\values-v14.xml",
+                    "from": {
+                        "startLines": "2,7,8,9,15",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "55,331,402,485,895",
+                        "endLines": "6,7,8,14,20",
+                        "endColumns": "12,70,82,12,12",
+                        "endOffsets": "326,397,480,890,1312"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v14/values-v14.xml",
+            "map": [
+                {
+                    "source": "/home/sune/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/4cb5688f4baf1eda95603ab563279fbf/res/values-v14/values-v14.xml",
+                    "from": {
+                        "startLines": "2,7,8,9,15",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "55,331,402,485,895",
+                        "endLines": "6,7,8,14,20",
+                        "endColumns": "12,70,82,12,12",
+                        "endOffsets": "326,397,480,890,1312"
+                    }
+                }
+            ]
+        }
+    ]
+}
