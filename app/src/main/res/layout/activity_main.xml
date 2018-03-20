@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@android:drawable/ic_menu_add"
+        android:src="@drawable/ic_add_white_24dp"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"/>
 

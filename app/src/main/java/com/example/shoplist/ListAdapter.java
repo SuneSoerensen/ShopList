@@ -14,6 +14,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 import com.example.shoplist.MainActivity;
 
@@ -23,6 +25,13 @@ import static com.example.shoplist.MainActivity.DIALOG_EDIT;
  * Created by frederik on 12-03-2018.
  */
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+    public interface checkboxInterface
+    {
+        void checkboxHasChanged(int id, boolean val);
+    }
+
+    checkboxInterface cListener;
+
     private ArrayList<ListItem> mDataset;
     private Context cont;
 
@@ -41,8 +50,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     // Provide a suitable constructor (depends on the kind of dataset)
     public ListAdapter(ArrayList<ListItem> myDataset, Context context) {
 
+        Log.i("CustomDebug", "Created ListAdapter-instance.");
         mDataset = myDataset;
+
+        Log.i("CustomDebug", "ListAdapter got data successfully.");
+
         cont = context;
+
+        cListener = (checkboxInterface)context;
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -63,6 +79,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         // - replace the contents of the view with that element
         //holder.mView.setText(mDataset[position]);
         TextView tw = holder.mView.findViewById(R.id.text_field);
+
         tw.setText(mDataset.get(position).title);
 
         final int newPos = position;
@@ -85,16 +102,18 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             @Override
             public void onClick(View v)
             {
+                Log.i("CustomDebug", "Clicked on Checkbox at pos: " + Integer.toString(newPos));
+
                 mDataset.get(newPos).checkBox = !mDataset.get(newPos).checkBox;
+                cListener.checkboxHasChanged( mDataset.get(newPos).id,  mDataset.get(newPos).checkBox);
             }
         });
-
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mDataset.size();
     }
 

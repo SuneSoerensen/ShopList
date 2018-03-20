@@ -20,7 +20,8 @@ import static com.example.shoplist.MainActivity.DIALOG_EDIT;
 
 public class NewItemDialogFragment extends DialogFragment {
     public interface NoticeDialogListener{
-        void onDialogPositiveClick(DialogFragment dialog, ListItem li);
+        void onDialogPositiveClick(DialogFragment dialog, ListItem li, boolean liIsNew);
+        void onDialogNegativeClick(DialogFragment dialog, int anId);
     }
     NoticeDialogListener mListener;
     public void onAttach(Activity activity)
@@ -48,8 +49,11 @@ public class NewItemDialogFragment extends DialogFragment {
         LayoutInflater li = getActivity().getLayoutInflater();
         View dialogView = li.inflate(R.layout.item_dialog, null);
 
+        boolean isNew = true;
+
         if(state == DIALOG_EDIT)
         {
+            isNew = false;
             EditText etTitleE;
             etTitleE = dialogView.findViewById(R.id.title);
             etTitleE.setText(bundle.getString("title"));
@@ -64,6 +68,7 @@ public class NewItemDialogFragment extends DialogFragment {
             cbCheckBoxE = dialogView.findViewById(R.id.checkbox_dialog);
             cbCheckBoxE.setChecked(bundle.getBoolean("checkbox"));
         }
+        final boolean isNewCopy = isNew;
         // Use the Builder class for convenient dialog construction
 
         builder.setMessage(R.string.new_item_dialog_text)
@@ -91,12 +96,15 @@ public class NewItemDialogFragment extends DialogFragment {
                             boolean cb = cbCheckBox.isChecked();
 
                             ListItem li = new ListItem(ID, title, price, cb);
-                            mListener.onDialogPositiveClick(NewItemDialogFragment.this, li);
+
+                            mListener.onDialogPositiveClick(NewItemDialogFragment.this, li, isNewCopy);
                     }
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
+                .setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        if(state == DIALOG_EDIT)
+                            mListener.onDialogNegativeClick(NewItemDialogFragment.this, ID);
                     }
                 })
         .setView(dialogView);
