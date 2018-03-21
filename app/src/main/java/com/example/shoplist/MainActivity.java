@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
     Thread dbUpdater;
 
+    //Sune added this comment
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
