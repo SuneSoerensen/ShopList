@@ -1,4 +1,4 @@
-#Tue Mar 20 18:53:01 CET 2018
+#Wed Mar 21 09:46:34 CET 2018
 base.0=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/19
 path.0=classes.dex
 renamed.0=classes.dex
