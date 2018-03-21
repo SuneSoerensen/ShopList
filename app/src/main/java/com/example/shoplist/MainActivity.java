@@ -5,10 +5,17 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -17,7 +24,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NoticeDialogListener, ListAdapter.checkboxInterface {
+public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NoticeDialogListener, ListAdapter.checkboxInterface, StoreFilterDialogFragment.FilterStoreInterface {
     public static final int DIALOG_CREATE = 0;
     public static final int DIALOG_EDIT   = 1;
 
@@ -40,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
     Thread dbUpdater;
 
-    //Sune added this comment
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,51 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         });
 
         setContentView(R.layout.activity_main);
+
+        //Drawer layout
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                       switch (menuItem.getItemId())
+                        {
+                            case R.id.nav_all:
+                                showAll();
+                                break;
+                            case R.id.nav_checked:
+                                showBasedOnCheck(true); //Show only checked items
+                                break;
+                            case R.id.nav_unchecked:
+                                showBasedOnCheck(false);//Show only unchecked items
+                                break;
+                            case R.id.nav_store:
+                                FragmentManager fm = getFragmentManager();
+                                FragmentTransaction ft = fm.beginTransaction();
+                                StoreFilterDialogFragment sfdf = new StoreFilterDialogFragment();
+                                //nidf.setArguments(b);
+                                sfdf.show(ft, "store_filter_dialog");
+                                break;
+                            default:
+                                break;
+                        }
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+
+        //Top actionbar/toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+
+        //Recyclerview
         mRecyclerView = findViewById(R.id.recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -299,4 +351,86 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
             }
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_delete:
+                Log.i("CustomDebug", "pressed delete button");
+                deleteCurrentlyVisible();
+                break;
+            default:
+                super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    public void showBasedOnCheck(boolean checked)
+    {
+        for(int i = 0; i < listElements.size(); i++)
+        {
+            if(listElements.get(i).checkBox == checked)
+                listElements.get(i).hidden = false;
+            else
+                listElements.get(i).hidden = true;
+        }
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void showAll()
+    {
+        for(int i = 0; i < listElements.size(); i++)
+        {
+            listElements.get(i).hidden = false;
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void filterStorePositiveBtn(String store)
+    {
+        for(int i = 0; i < listElements.size(); i++)
+        {
+            if(listElements.get(i).store.equals(store))
+                listElements.get(i).hidden = false;
+            else
+                listElements.get(i).hidden = true;
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void deleteCurrentlyVisible()
+    {
+
+        lockTbd.lock();
+        try
+        {
+            for(int i = 0; i < listElements.size(); i++)
+                if(!listElements.get(i).hidden)
+                {
+                    toBeDeleted.add(listElements.get(i));
+                    listElements.remove(i);
+                }
+        }
+        finally
+        {
+            lockTbd.unlock();
+        }
+
+
+        mAdapter.notifyDataSetChanged();
+
+    }
+
 }
