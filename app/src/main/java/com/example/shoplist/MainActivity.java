@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NoticeDialogListener, ListAdapter.checkboxInterface {
     public static final int DIALOG_CREATE = 0;
     public static final int DIALOG_EDIT   = 1;
@@ -40,11 +41,14 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
     Thread dbUpdater;
 
+
+
     //Sune added this comment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         listElements = new ArrayList<>();
 
         //Create queues

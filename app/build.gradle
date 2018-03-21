@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.shoplist"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -30,4 +30,8 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation "android.arch.persistence.room:runtime:1.0.0"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    compile 'com.firebaseui:firebase-ui-auth:3.2.2'
+
+
 }
+apply plugin: 'com.google.gms.google-services'
