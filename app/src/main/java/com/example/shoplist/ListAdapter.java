@@ -75,16 +75,36 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        //holder.mView.setText(mDataset[position]);
-        TextView tw = holder.mView.findViewById(R.id.text_field);
+       TextView tw = holder.mView.findViewById(R.id.text_field);
 
-        tw.setText(mDataset.get(position).title);
+       int modPosition = 0;
 
-        final int newPos = position;
+       int count = 0;
 
-        //TODO: change to better solution when proficient...
+       for(int i = 0; i < mDataset.size(); i++)
+       {
+           if(!mDataset.get(i).hidden)
+           {
+               count++;
+               if(count == position+1)
+                   modPosition = i;
+           }
+       }
+
+       for(int i = 0; i < mDataset.size(); i++)
+       {
+           if(!mDataset.get((modPosition+i) % mDataset.size()).hidden) //If item is not hidden
+           {
+               modPosition = (modPosition+i) % mDataset.size();
+               //Log.i("CustomDebug", "Item position = " + Integer.toString(modPosition) + "is visible.");
+               break;
+           }
+       }
+
+        tw.setText(mDataset.get(modPosition).title);
+
+        final int newPos = modPosition;
+
         tw.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -95,7 +115,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         });
 
         CheckBox cb = holder.mView.findViewById(R.id.checkbox);
-        cb.setChecked(mDataset.get(position).checkBox);
+        cb.setChecked(mDataset.get(modPosition).checkBox);
 
         cb.setOnClickListener(new View.OnClickListener()
         {
@@ -114,7 +134,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @Override
     public int getItemCount()
     {
-        return mDataset.size();
+        int res = mDataset.size();
+
+        for(int i = 0; i < mDataset.size(); i++ )
+        {
+            if(mDataset.get(i).hidden)
+                res--;
+        }
+        return res;
     }
 
     public void editListItem(ListItem li)
@@ -125,6 +152,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         b.putString("title", li.title);
         b.putInt("price", li.price);
         b.putBoolean("checkbox", li.checkBox);
+        b.putString("store", li.store);
 
         FragmentManager fm = ((Activity)cont).getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

@@ -24,6 +24,7 @@ public class NewItemDialogFragment extends DialogFragment {
         void onDialogNegativeClick(DialogFragment dialog, int anId);
     }
     NoticeDialogListener mListener;
+
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
@@ -67,6 +68,10 @@ public class NewItemDialogFragment extends DialogFragment {
             CheckBox cbCheckBoxE;
             cbCheckBoxE = dialogView.findViewById(R.id.checkbox_dialog);
             cbCheckBoxE.setChecked(bundle.getBoolean("checkbox"));
+
+            EditText etStore;
+            etStore = dialogView.findViewById(R.id.store);
+            etStore.setText(bundle.getString("store"));
         }
         final boolean isNewCopy = isNew;
         // Use the Builder class for convenient dialog construction
@@ -95,7 +100,11 @@ public class NewItemDialogFragment extends DialogFragment {
                             cbCheckBox = ((AlertDialog)dialog).findViewById(R.id.checkbox_dialog);
                             boolean cb = cbCheckBox.isChecked();
 
-                            ListItem li = new ListItem(ID, title, price, cb);
+                            EditText etStore;
+                            etStore = ((AlertDialog)dialog).findViewById(R.id.store);
+                            String store = etStore.getText().toString();
+
+                            ListItem li = new ListItem(ID, title, price, cb, store);
 
                             mListener.onDialogPositiveClick(NewItemDialogFragment.this, li, isNewCopy);
                     }
@@ -107,7 +116,7 @@ public class NewItemDialogFragment extends DialogFragment {
                             mListener.onDialogNegativeClick(NewItemDialogFragment.this, ID);
                     }
                 })
-        .setView(dialogView);
+                .setView(dialogView);
 
         // Create the AlertDialog object and return it
         return builder.create();

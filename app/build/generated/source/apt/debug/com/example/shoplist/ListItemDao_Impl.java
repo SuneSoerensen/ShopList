@@ -25,7 +25,7 @@ public class ListItemDao_Impl implements ListItemDao {
     this.__insertionAdapterOfListItem = new EntityInsertionAdapter<ListItem>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `ListItem`(`id`,`title`,`price`,`checkBox`) VALUES (?,?,?,?)";
+        return "INSERT OR ABORT INTO `ListItem`(`id`,`title`,`price`,`checkBox`,`store`) VALUES (?,?,?,?,?)";
       }
 
       @Override
@@ -40,6 +40,11 @@ public class ListItemDao_Impl implements ListItemDao {
         final int _tmp;
         _tmp = value.checkBox ? 1 : 0;
         stmt.bindLong(4, _tmp);
+        if (value.store == null) {
+          stmt.bindNull(5);
+        } else {
+          stmt.bindString(5, value.store);
+        }
       }
     };
     this.__deletionAdapterOfListItem = new EntityDeletionOrUpdateAdapter<ListItem>(__db) {
@@ -56,7 +61,7 @@ public class ListItemDao_Impl implements ListItemDao {
     this.__updateAdapterOfListItem = new EntityDeletionOrUpdateAdapter<ListItem>(__db) {
       @Override
       public String createQuery() {
-        return "UPDATE OR ABORT `ListItem` SET `id` = ?,`title` = ?,`price` = ?,`checkBox` = ? WHERE `id` = ?";
+        return "UPDATE OR ABORT `ListItem` SET `id` = ?,`title` = ?,`price` = ?,`checkBox` = ?,`store` = ? WHERE `id` = ?";
       }
 
       @Override
@@ -71,7 +76,12 @@ public class ListItemDao_Impl implements ListItemDao {
         final int _tmp;
         _tmp = value.checkBox ? 1 : 0;
         stmt.bindLong(4, _tmp);
-        stmt.bindLong(5, value.id);
+        if (value.store == null) {
+          stmt.bindNull(5);
+        } else {
+          stmt.bindString(5, value.store);
+        }
+        stmt.bindLong(6, value.id);
       }
     };
   }
@@ -119,6 +129,7 @@ public class ListItemDao_Impl implements ListItemDao {
       final int _cursorIndexOfTitle = _cursor.getColumnIndexOrThrow("title");
       final int _cursorIndexOfPrice = _cursor.getColumnIndexOrThrow("price");
       final int _cursorIndexOfCheckBox = _cursor.getColumnIndexOrThrow("checkBox");
+      final int _cursorIndexOfStore = _cursor.getColumnIndexOrThrow("store");
       final List<ListItem> _result = new ArrayList<ListItem>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final ListItem _item;
@@ -129,6 +140,7 @@ public class ListItemDao_Impl implements ListItemDao {
         final int _tmp;
         _tmp = _cursor.getInt(_cursorIndexOfCheckBox);
         _item.checkBox = _tmp != 0;
+        _item.store = _cursor.getString(_cursorIndexOfStore);
         _result.add(_item);
       }
       return _result;

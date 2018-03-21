@@ -80,7 +80,7 @@ MERGED from [android.arch.lifecycle:runtime:1.0.0] /home/sune/.gradle/caches/tra
 	android:allowBackup
 		ADDED from /home/sune/AndroidStudioProjects/ShopList/app/src/main/AndroidManifest.xml:6:9-35
 	android:theme
-		ADDED from /home/sune/AndroidStudioProjects/ShopList/app/src/main/AndroidManifest.xml:11:9-40
+		ADDED from /home/sune/AndroidStudioProjects/ShopList/app/src/main/AndroidManifest.xml:11:9-65
 activity#com.example.shoplist.MainActivity
 ADDED from /home/sune/AndroidStudioProjects/ShopList/app/src/main/AndroidManifest.xml:12:9-18:20
 	android:name

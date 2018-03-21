@@ -22,11 +22,11 @@ public class AppDataBase_Impl extends AppDataBase {
   private volatile ListItemDao _listItemDao;
 
   protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration configuration) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(2) {
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `ListItem` (`id` INTEGER NOT NULL, `title` TEXT, `price` INTEGER NOT NULL, `checkBox` INTEGER NOT NULL, PRIMARY KEY(`id`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `ListItem` (`id` INTEGER NOT NULL, `title` TEXT, `price` INTEGER NOT NULL, `checkBox` INTEGER NOT NULL, `store` TEXT, PRIMARY KEY(`id`))");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"06e94167e17ea1a23bf0ed9313378378\")");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"aa451702e893cb089b597748711915e0\")");
       }
 
       public void dropAllTables(SupportSQLiteDatabase _db) {
@@ -52,11 +52,12 @@ public class AppDataBase_Impl extends AppDataBase {
       }
 
       protected void validateMigration(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsListItem = new HashMap<String, TableInfo.Column>(4);
+        final HashMap<String, TableInfo.Column> _columnsListItem = new HashMap<String, TableInfo.Column>(5);
         _columnsListItem.put("id", new TableInfo.Column("id", "INTEGER", true, 1));
         _columnsListItem.put("title", new TableInfo.Column("title", "TEXT", false, 0));
         _columnsListItem.put("price", new TableInfo.Column("price", "INTEGER", true, 0));
         _columnsListItem.put("checkBox", new TableInfo.Column("checkBox", "INTEGER", true, 0));
+        _columnsListItem.put("store", new TableInfo.Column("store", "TEXT", false, 0));
         final HashSet<TableInfo.ForeignKey> _foreignKeysListItem = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesListItem = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoListItem = new TableInfo("ListItem", _columnsListItem, _foreignKeysListItem, _indicesListItem);
@@ -67,7 +68,7 @@ public class AppDataBase_Impl extends AppDataBase {
                   + " Found:\n" + _existingListItem);
         }
       }
-    }, "06e94167e17ea1a23bf0ed9313378378");
+    }, "aa451702e893cb089b597748711915e0");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
