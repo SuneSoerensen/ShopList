@@ -25,6 +25,7 @@ import static com.example.shoplist.MainActivity.DIALOG_EDIT;
  * Created by frederik on 12-03-2018.
  */
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+    //Interface to main
     public interface checkboxInterface
     {
         void checkboxHasChanged(int id, boolean val);

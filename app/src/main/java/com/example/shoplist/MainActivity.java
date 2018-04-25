@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -446,11 +447,12 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         double sum = 0.0;
         for(int i = 0 ; i < listElements.size(); i++)
         {
-            sum += listElements.get(i).price;
+            if(!listElements.get(i).hidden)
+                sum += listElements.get(i).price;
         }
 
-        EditText et = findViewById(R.id.running_total);
-        et.setText(getString(R.string.running_total) + ": " + Double.toString(sum) );
+        TextView et = findViewById(R.id.running_total);
+        et.setText(getString(R.string.running_total) + ": " + Double.toString(sum));
     }
 
 }

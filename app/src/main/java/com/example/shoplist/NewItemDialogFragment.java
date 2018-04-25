@@ -41,11 +41,20 @@ public class NewItemDialogFragment extends DialogFragment {
     }
 
     @Override
-    public  void onActivityCreated(Bundle savedInstanceState) //To display keyboard when dialog is created.
+    public void onActivityCreated(Bundle savedInstanceState) //To display keyboard when dialog is created.
     {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        Log.i("CustomDebug", "Keyboard up");
     }
+
+    /*@Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        Log.i("CustomDebug", "Keyboard up");
+    }*/
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {

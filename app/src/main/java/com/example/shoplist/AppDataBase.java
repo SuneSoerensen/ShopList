@@ -9,7 +9,7 @@ import android.content.Context;
  * Created by sune on 3/14/18.
  */
 
-@Database(entities = {ListItem.class}, version =3)
+@Database(entities = {ListItem.class}, version = 3)
 public abstract class AppDataBase extends RoomDatabase
 {
     private static AppDataBase INSTANCE;
@@ -17,6 +17,7 @@ public abstract class AppDataBase extends RoomDatabase
 
     public static AppDataBase getAppDataBase(Context context)
     {
+        //Only create a new database if the is none already (follow singleton-pattern):
         if(INSTANCE == null)
         {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),

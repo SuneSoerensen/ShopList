@@ -22,7 +22,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
-        <EditText
+        <TextView
+            android:textSize="18sp"
             android:textColor="#ffffff"
             android:textAlignment="center"
             android:id="@+id/running_total"
