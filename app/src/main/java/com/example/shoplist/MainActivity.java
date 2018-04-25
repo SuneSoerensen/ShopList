@@ -26,15 +26,20 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NoticeDialogListener, ListAdapter.checkboxInterface, StoreFilterDialogFragment.FilterStoreInterface {
+public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NoticeDialogListener, ListAdapter.checkboxInterface, StoreFilterDialogFragment.FilterStoreInterface, DelAllVisFragment.DelAllVisInterface
+{
+    //State of NewItemDialogFragment, to determine if an item is created or edited:
     public static final int DIALOG_CREATE = 0;
     public static final int DIALOG_EDIT   = 1;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    //All items in shopping-list:
     private ArrayList<ListItem> listElements;
 
+    //Qeues which the thread dbUpdater will look at and act correspondingly:
     private Queue<ListItem> toBeDeleted;
     public ReentrantLock lockTbd;
 
@@ -44,40 +49,40 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
     private Queue<ListItem> isNew;
     public ReentrantLock lockIn;
 
-    private boolean updateDb = true;
+    private boolean updateDb = true; //Boolean to continue/stop dbUpdater-thread (must be true when app opens or resumes)
     private AppDataBase dataBase;
 
-    Thread dbUpdater;
+    Thread dbUpdater; //Maintains the database, such that it reflects the current listElements
 
     private DrawerLayout mDrawerLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         listElements = new ArrayList<>();
 
-        //Create queues
+        //Create queues:
         toBeDeleted = new LinkedList<>();
         hasBeenChanged = new LinkedList<>();
         isNew = new LinkedList<>();
 
-        //Create locks
+        //Create locks:
         lockTbd = new ReentrantLock();
         lockHbc = new ReentrantLock();
         lockIn  = new ReentrantLock();
 
         //Create database:
         dataBase = AppDataBase.getAppDataBase(this);
-        Log.i("CustomDebug", "Database built.");
 
+        //Get all items from database:
         final List<ListItem> list = dataBase.listItemDao().getAll();
-        Log.i("CustomDebug", "Got all elements from database. No of elements: " + Integer.toString(list.size()));
 
+        //Copy the gotten items into listElements:
         for(int i = 0; i < list.size(); i++)
         {
             listElements.add(list.get(i));
         }
-        Log.i("CustomDebug", "Copied all elements from database.");
 
         //Create thread to update database:
         dbUpdater = new Thread(new Runnable()
@@ -89,13 +94,14 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
             }
         });
 
+        //Set view of MainActivity:
         setContentView(R.layout.activity_main);
 
-        //Drawer layout
+        //Drawer layout:
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
+        //Set the navigation for drawer:
         NavigationView navigationView = findViewById(R.id.nav_view);
-
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -103,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                        switch (menuItem.getItemId())
                         {
                             case R.id.nav_all:
-                                showAll();
+                                showAll(); //Show all items
                                 break;
                             case R.id.nav_checked:
                                 showBasedOnCheck(true); //Show only checked items
@@ -112,21 +118,21 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                                 showBasedOnCheck(false);//Show only unchecked items
                                 break;
                             case R.id.nav_store:
+                                //Open a dialog, where user enters store, then show only items with matching store:
                                 FragmentManager fm = getFragmentManager();
                                 FragmentTransaction ft = fm.beginTransaction();
                                 StoreFilterDialogFragment sfdf = new StoreFilterDialogFragment();
-                                //nidf.setArguments(b);
                                 sfdf.show(ft, "store_filter_dialog");
                                 break;
                             default:
                                 break;
                         }
-                        mDrawerLayout.closeDrawers();
+                        mDrawerLayout.closeDrawers(); //Close drawers whenever a filter is selected
                         return true;
                     }
                 });
 
-        //Top actionbar/toolbar
+        //Top toolbar:
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -134,23 +140,19 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
 
-        //Recyclerview
+        //Recyclerview:
         mRecyclerView = findViewById(R.id.recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
-        // use a linear layout manager
+        //Use a linear layout manager:
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        Log.i("CustomDebug", "Hurra.");
-
-        // specify an adapter (see also next example)
+        //Create adapter:
         mAdapter = new ListAdapter(listElements,this);
         mRecyclerView.setAdapter(mAdapter);
 
+        //Button for adding new items:
         FloatingActionButton fab = findViewById(R.id.floatingActionButton2);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,11 +171,9 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
         dbUpdater.start();
         updateRunningTotal();
-        Log.i("CustomDebug", "Started dbUpdater-thread.");
-        Log.i("CustomDebug", "Completed onCreate.");
     }
 
-
+    //Invoked when tapping "Okay"-button in NewItemDialogFragment:
     public void onDialogPositiveClick(DialogFragment dialog, ListItem li, boolean liIsNew)
     {
         if(liIsNew) //If it's a new element
@@ -184,15 +184,16 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
             lockIn.lock();
             try
             {
-                isNew.add(li);
+                isNew.add(li); //Add to queue of new items
             }
             finally
             {
                 lockIn.unlock();
             }
         }
-        else //If it's a changed element
+        else
         {
+            //If it's a changed element, find it in listElements and update it:
             for(int i = 0; i < listElements.size(); i++)
             {
                 if(listElements.get(i).id == li.id)
@@ -202,11 +203,10 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                 }
             }
 
-
             lockHbc.lock();
             try
             {
-                hasBeenChanged.add(li);
+                hasBeenChanged.add(li); // Add it to queue of changes items
             }
             finally
             {
@@ -218,8 +218,10 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         }
     }
 
+    //Invoked when tapping the "Delete"-button in NewItemDialogFragment:
     public void onDialogNegativeClick(DialogFragment dialog, int anId)
     {
+        //Find the item in listElements:
         for(int i = 0; i < listElements.size(); i++)
         {
             if(listElements.get(i).id == anId)
@@ -227,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                 lockTbd.lock();
                 try
                 {
-                    toBeDeleted.add(listElements.get(i));
+                    toBeDeleted.add(listElements.get(i)); //Add it to queue of items to be deleted from database
                 }
                 finally
                 {
@@ -241,13 +243,14 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         }
     }
 
+    //Run by dbUpdater-thread:
     public void updateDatabase()
     {
-        ListItem temp;
+        ListItem temp; //Temporary listItem
 
         while(updateDb)
         {
-            //Check toBeDeleted-queue
+            //Check toBeDeleted-queue:
             lockTbd.lock();
             try
             {
@@ -262,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                 lockTbd.unlock();
             }
 
-            //Check hasBeenChanged-queue
+            //Check hasBeenChanged-queue:
             lockHbc.lock();
             try
             {
@@ -277,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                 lockHbc.unlock();
             }
 
+            //Check isNew-queue:
             lockIn.lock();
             try
             {
@@ -291,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                 lockIn.unlock();
             }
 
-            //Sleep for a while
+            //Sleep for 100ms to avoid updating database constantly:
             try
             {
                 Thread.sleep(100);
@@ -308,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
     {
         super.onDestroy();
 
+        //Stop updating database:
         updateDb = false;
 
         try
@@ -319,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
             e.printStackTrace();
         }
 
-        //Cleanup
+        //Cleanup database:
         AppDataBase.deleteInstance();
     }
 
@@ -327,19 +332,19 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
     {
         for(int i = 0; i < listElements.size(); i++)
         {
-            if(listElements.get(i).id > i)
+            if(listElements.get(i).id > i) //If there was an unused ID
             {
                 return i;
             }
         }
 
-        return listElements.size();
+        return listElements.size(); //If all ID's were taken, create a new
     }
 
+    //Invoked by ListAdapter, when a checkbox is tapped:
     @Override
     public void checkboxHasChanged(int id, boolean val)
     {
-        Log.i("CustomDebug", "Got id: " + Integer.toString(id));
         for(int i = 0; i < listElements.size(); i++)
         {
             if(listElements.get(i).id == id)
@@ -347,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                 lockHbc.lock();
                 try
                 {
-                    hasBeenChanged.add(listElements.get(i));
+                    hasBeenChanged.add(listElements.get(i)); //Add to queue of changed items
                 }
                 finally
                 {
@@ -360,13 +365,17 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+        switch (item.getItemId())
+        {
+            case android.R.id.home: //If the drawer-menu-button is tapped
+                mDrawerLayout.openDrawer(GravityCompat.START); //Open the drawer menu
                 return true;
-            case R.id.action_delete:
-                Log.i("CustomDebug", "pressed delete button");
-                deleteCurrentlyVisible();
+            case R.id.action_delete: //If the trashcan-icon is clicked:
+                //deleteCurrentlyVisible();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                DelAllVisFragment davf = new DelAllVisFragment();
+                davf.show(ft, "del_all_vis_dialog");
                 break;
             default:
                 super.onOptionsItemSelected(item);
@@ -376,11 +385,14 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
+    /******************************
+     *Filters (drawer-menu actions)
+     ******************************/
     public void showBasedOnCheck(boolean checked)
     {
         for(int i = 0; i < listElements.size(); i++)
@@ -442,6 +454,8 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
     }
 
+
+    //Update the running total of all visible items:
     public void updateRunningTotal()
     {
         double sum = 0.0;
