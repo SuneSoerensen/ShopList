@@ -9,6 +9,9 @@
     <string name="item_price">Price</string>
     <string name="item_store">Store</string>
 
+    <!--running total -->
+    <string name="running_total">Current total</string>
+
     <!-- Drawer layout -->
     <string name="drawer_header">Show only items that are:</string>
     <string name="nav_all">All items</string>

@@ -1,5 +1,6 @@
 package com.example.shoplist;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -37,9 +39,17 @@ public class NewItemDialogFragment extends DialogFragment {
             throw new ClassCastException(activity.toString() + "Must implement NoticeDialogListener");
         }
     }
+
+    @Override
+    public  void onActivityCreated(Bundle savedInstanceState) //To display keyboard when dialog is created.
+    {
+        super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        Bundle bundle = getArguments();
+        final Bundle bundle = getArguments();
         final int state = bundle.getInt("DialogState");
         final int ID = bundle.getInt("id");
         Log.i("CustomDebug", "id = "+Integer.toString(ID));
@@ -49,6 +59,12 @@ public class NewItemDialogFragment extends DialogFragment {
 
         LayoutInflater li = getActivity().getLayoutInflater();
         View dialogView = li.inflate(R.layout.item_dialog, null);
+        /*EditText firstFocus;
+        firstFocus = dialogView.findViewById(R.id.title);
+        firstFocus.requestFocus();
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);*/
+
+
 
         boolean isNew = true;
 
@@ -62,12 +78,12 @@ public class NewItemDialogFragment extends DialogFragment {
 
             EditText etPriceE;
             etPriceE = dialogView.findViewById(R.id.price);
-            etPriceE.setText(Integer.toString(bundle.getInt("price")));
-            Log.i("CustomDebug", "price edited");
+            etPriceE.setText(Double.toString(bundle.getDouble( "price")));
+            Log.i("CustomDebug", "price edited to " + etPriceE.getText().toString());
 
-            CheckBox cbCheckBoxE;
+            /*CheckBox cbCheckBoxE;
             cbCheckBoxE = dialogView.findViewById(R.id.checkbox_dialog);
-            cbCheckBoxE.setChecked(bundle.getBoolean("checkbox"));
+            cbCheckBoxE.setChecked(bundle.getBoolean("checkbox"));*/
 
             EditText etStore;
             etStore = dialogView.findViewById(R.id.store);
@@ -81,30 +97,32 @@ public class NewItemDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                             EditText etTitle;
                             etTitle = ((AlertDialog)dialog).findViewById(R.id.title);
+                            //etTitle.requestFocus();
+                            //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                             String title = etTitle.getText().toString();
 
                             EditText etPrice;
                             etPrice = ((AlertDialog)dialog).findViewById(R.id.price);
 
-                            int price;
+                            double price;
                             if(etPrice.getText().toString().length() == 0)
                             {
                                 price = 0;
                             }
                             else
                             {
-                                price = Integer.parseInt(etPrice.getText().toString());
+                                price = Double.parseDouble(etPrice.getText().toString());
                             }
 
-                            CheckBox cbCheckBox;
-                            cbCheckBox = ((AlertDialog)dialog).findViewById(R.id.checkbox_dialog);
-                            boolean cb = cbCheckBox.isChecked();
+                            /*CheckBox cbCheckBox;
+                            cbCheckBox = b;*/
+                            boolean cb = bundle.getBoolean("checkbox");
 
                             EditText etStore;
                             etStore = ((AlertDialog)dialog).findViewById(R.id.store);
                             String store = etStore.getText().toString();
 
-                            ListItem li = new ListItem(ID, title, price, cb, store);
+                            ListItem li = new ListItem(ID, title, price,cb, store);
 
                             mListener.onDialogPositiveClick(NewItemDialogFragment.this, li, isNewCopy);
                     }
