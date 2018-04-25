@@ -4,7 +4,7 @@
             "outputFile": "/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "/home/sune/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/4cb5688f4baf1eda95603ab563279fbf/res/values-v24/values-v24.xml",
+                    "source": "/home/sune/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/1a6398b21431ed31b00c7c8f27ccb5ee/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/home/sune/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/b0ce5adc8c8a6517dcb9577f89ba4a92/res/values-v24/values-v24.xml",
+                    "source": "/home/sune/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/2c42cdf6362f5f6846fc103030ad6e2d/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
