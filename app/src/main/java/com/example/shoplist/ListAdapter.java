@@ -150,7 +150,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         b.putInt("DialogState", DIALOG_EDIT);
         b.putInt("id", li.id);
         b.putString("title", li.title);
-        b.putInt("price", li.price);
+        b.putDouble("price", li.price);
         b.putBoolean("checkbox", li.checkBox);
         b.putString("store", li.store);
 

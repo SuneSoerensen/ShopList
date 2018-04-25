@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -166,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         });
 
         dbUpdater.start();
+        updateRunningTotal();
         Log.i("CustomDebug", "Started dbUpdater-thread.");
         Log.i("CustomDebug", "Completed onCreate.");
     }
@@ -177,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         {
             listElements.add(li.id,li);
             mAdapter.notifyDataSetChanged();
-
+            updateRunningTotal();
             lockIn.lock();
             try
             {
@@ -211,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
             }
 
             mAdapter.notifyDataSetChanged();
+            updateRunningTotal();
         }
     }
 
@@ -232,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
                 listElements.remove(i);
                 mAdapter.notifyDataSetChanged();
+                updateRunningTotal();
             }
         }
     }
@@ -387,6 +391,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         }
 
         mAdapter.notifyDataSetChanged();
+        updateRunningTotal();
     }
 
     public void showAll()
@@ -396,6 +401,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
             listElements.get(i).hidden = false;
         }
         mAdapter.notifyDataSetChanged();
+        updateRunningTotal();
     }
 
     public void filterStorePositiveBtn(String store)
@@ -408,6 +414,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                 listElements.get(i).hidden = true;
         }
         mAdapter.notifyDataSetChanged();
+        updateRunningTotal();
     }
 
     public void deleteCurrentlyVisible()
@@ -430,7 +437,20 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
 
         mAdapter.notifyDataSetChanged();
+        updateRunningTotal();
 
+    }
+
+    public void updateRunningTotal()
+    {
+        double sum = 0.0;
+        for(int i = 0 ; i < listElements.size(); i++)
+        {
+            sum += listElements.get(i).price;
+        }
+
+        EditText et = findViewById(R.id.running_total);
+        et.setText(getString(R.string.running_total) + ": " + Double.toString(sum) );
     }
 
 }

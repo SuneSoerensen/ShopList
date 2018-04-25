@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ShopList</string>
+    <string name="new_item_dialog_text">Tilføj ny vare</string>
+    <string name="ok">Okay</string>
+    <string name="delete">Slet</string>
+    <string name="item_title">Navn</string>
+    <string name="item_price">Pris</string>
+    <string name="item_store">Butik</string>
+    <string name="drawer_header">Vis kun vare der:</string>
+    <string name="nav_all">Alle vare</string>
+    <string name="nav_checked">Markeder vare</string>
+    <string name="nav_unchecked">Ikke markeder vare</string>
+    <string name="nav_store">Fra en butik</string>
+    <string name="filter_store_dialog_text">Hviken butik</string>
+    <string name="cancel">Afbrud</string>
+    <string name="running_total">Nuvære total</string>
+</resources>

@@ -18,7 +18,7 @@ public class ListItem
 
     public String title;
 
-    public int price;
+    public double price;
 
     public boolean checkBox;
 
@@ -28,7 +28,7 @@ public class ListItem
     {
     }
 
-    public ListItem(int anId, String aTitle, int aPrice, boolean aCheckBox, String aStore)
+    public ListItem(int anId, String aTitle, double aPrice, boolean aCheckBox, String aStore)
     {
         id = anId;
         title = aTitle;
