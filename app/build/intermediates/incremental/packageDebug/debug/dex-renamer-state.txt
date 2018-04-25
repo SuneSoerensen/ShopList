@@ -1,4 +1,4 @@
-#Wed Apr 25 09:48:32 CEST 2018
+#Wed Mar 21 16:16:25 CET 2018
 path.1=classes.dex
 path.0=classes.dex
 renamed.5=classes6.dex
@@ -7,12 +7,12 @@ renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-base.5=C\:\\Users\\Bruger\\Documents\\Android_ShopList\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
-base.4=C\:\\Users\\Bruger\\Documents\\Android_ShopList\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
-base.3=C\:\\Users\\Bruger\\Documents\\Android_ShopList\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
-base.2=C\:\\Users\\Bruger\\Documents\\Android_ShopList\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
-base.1=C\:\\Users\\Bruger\\Documents\\Android_ShopList\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
-base.0=C\:\\Users\\Bruger\\Documents\\Android_ShopList\\ShopList\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17
+base.5=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/15
+base.4=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/12
+base.3=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/11
+base.2=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/14
+base.1=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/13
+base.0=/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/transforms/dexMerger/debug/16
 path.5=classes.dex
 path.4=classes.dex
 path.3=classes.dex

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Bruger\\Documents\\Android_ShopList\\ShopList\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
+            "outputFile": "/home/sune/AndroidStudioProjects/ShopList/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Bruger\\.gradle\\caches\\transforms-1\\files-1.1\\design-26.1.0.aar\\b34da70f1c8e83a16e0c48c565af86df\\res\\values-land\\values-land.xml",
+                    "source": "/home/sune/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/08f1c91a055704687237041d35483cd7/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Bruger\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\7b4b16af10d37501e92ac597af92fdd4\\res\\values-land\\values-land.xml",
+                    "source": "/home/sune/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/1a6398b21431ed31b00c7c8f27ccb5ee/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
